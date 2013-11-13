@@ -27,7 +27,7 @@ def crawl(url, use_proxy=False):
     	opener.addheaders = [('User-agent', user_agents[index])]
     	urllib2.install_opener(opener)
 
-    print 'url is ', url
+    print 'url is %s --%s' % (url, 'use proxy' if use_proxy else 'direct download')
     request = urllib2.Request(url)
     user_agent = user_agents[index]
     request.add_header('User-agent', user_agent)
@@ -54,7 +54,7 @@ def save_error_line(line):
 	error_lines.add(line)
 	save_list('error_urls.txt', list(error_lines))
 
-links_dir = 'links10-20'
+links_dir = 'links1-10'
 
 def crawl_by_person():
 	'''
@@ -100,13 +100,12 @@ def crawl_by_person():
 						if not url:
 							continue
 						start = time.time()
-						print 'crawl person %s, filename %s, %s' % (dir_, links_file, url)
+						print 'crawl person %s, filename %s' % (dir_, links_file)
 						total += 1
 						html, is_successed, code = crawl(url)
-                                                print 'code %s is_successed %s' % (code, is_successed)
 						if not is_successed:
 							html, is_successed, code = crawl(url, use_proxy=True)
-                                                print 'code %s is_successed %s--use proxy' % (code, is_successed)
+                                                print 'code %s is_successed %s' % (code, is_successed)
 						if is_successed:
 							fw = open(wfilename, 'w+')
 							fw.write(html)
